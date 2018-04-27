@@ -1,8 +1,8 @@
 # PictureSelector 2.0 
-   一款针对android平台下的图片选择器，支持从相册或拍照选择图片或视频、音频，支持动态权限获取、裁剪(单图or多图裁剪)、压缩、主题自定义配置等功能、适配android 6.0+系统的开源图片选择框架。<br> 
+   一款针对android平台下的图片选择器，支持从相册或拍照选择图片或视频、音频，支持动态权限获取、裁剪(单图or多图裁剪)、压缩、主题自定义配置等功能、适配android 6.0+系统的开源图片选择框架。<br>  
   
   <br>项目会一直维护(有bug修复完成，一般周末会更新)，有bug请描述清楚，并请Issues会第一时间修复，个人QQ 893855882@qq.com  希望用得着的朋友点个star。 <br>
- Android开发交流 群一 619458861）(已满) <br>
+ Android开发交流 群一 619458861）(已满) <br> 
  Android开发交流 群二 679824206 <br> 
    
   [我的博客地址](http://blog.csdn.net/luck_mw) 
@@ -73,7 +73,7 @@
 
 ```
 dependencies {
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.0'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
 }
 
 ```
@@ -106,14 +106,15 @@ step 2.
 <dependency>
       <groupId>com.github.LuckSiege.PictureSelector</groupId>
       <artifactId>picture_library</artifactId>
-      <version>v2.2.0</version> 
+      <version>v2.2.3</version> 
 </dependency>
 
 ```
 
 ## 常见错误
 ```
- 重要：PictureSelector.create()；调用此方法时，在activity中传activity.this，在fragment中请传fragment.this,影响回调到哪个地方的onActivityResult()。
+ 重要：PictureSelector.create()；调用此方法时，在activity中传activity.this，在fragment中请传fragment.this,
+ 影响回调到哪个地方的onActivityResult()。
  
  问题一：
  rxjava冲突：在app build.gradle下添加
@@ -126,6 +127,8 @@ step 2.
  Attempt to invoke virtual method 'android.content.res.XmlResourceParser 
  android.content.pm.ProviderInfo.loadXmlMetaData(android.content.pm.PackageManager, java.lang.String)'
  on a null object reference
+ 
+ * 注意 从v2.1.3版本中，将不需要配制以下内容
  
  application下添加如下节点:
  
@@ -315,12 +318,12 @@ PictureSelector.create(MainActivity.this).externalPictureVideo(video_path);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
-                    // 图片选择结果回调
+                    // 图片、视频、音频选择结果回调
                     List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
                     // 例如 LocalMedia 里面返回三种path
-                    // 1.media.getPath(); 为原图path
-                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
-                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
+                    // 1.media.getPath(); 为原图path
+                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true  注意：音视频除外
+                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true  注意：音视频除外
                     // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
                     adapter.setList(selectList);
                     adapter.notifyDataSetChanged();
@@ -335,10 +338,19 @@ PictureSelector.create(MainActivity.this).externalPictureVideo(video_path);
 ## 更新日志
 
 # 当前版本：
+* v2.2.3
+* 1.修复沉浸式在部分机型标题栏遮挡情况
+
+# 历史版本：
+* v2.2.2
+* 1.优化外部预览界面样式不同步问题
+* 2.优化沉浸式方案，适配更多机型
+* 3.新增isDragFrame(false) API  是否可拖动裁剪框(固定)
+* 4.修复录音会生成重复文件问题
+
 * v2.2.0
 * 1.修复单独拍照+裁剪图片不返回问题
 
-# 历史版本：
 * v2.1.9
 * 1.修改单选策略，也支持预览模式
 * 2.修复8.0部分手机闪退问题
@@ -476,4 +488,5 @@ PictureSelector.create(MainActivity.this).externalPictureVideo(video_path);
 ![image](https://github.com/LuckSiege/PictureSelector/blob/master/image/audio.jpg)
 ![image](https://github.com/LuckSiege/PictureSelector/blob/master/image/9.jpg)
 ![image](https://github.com/LuckSiege/PictureSelector/blob/master/image/10.jpg)
+
 
